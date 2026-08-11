@@ -1,0 +1,6 @@
+{
+  "name": "i-Flier International School",
+  "description": "Official website for i-Flier International School, Ibadan - Inspired By Excellence & Success",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
