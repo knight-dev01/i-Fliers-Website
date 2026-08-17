@@ -535,8 +535,16 @@ export default function App() {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
           
           <div className="flex items-center gap-3 sm:gap-4 flex-wrap justify-center md:justify-start">
-            <a href={`tel:${SCHOOL_INFO.phone1}`} className="hover:text-white transition flex items-center gap-1">
-              <Phone className="w-3 h-3 text-amber-400 shrink-0" /> {SCHOOL_INFO.phone1}
+            <a 
+              href="https://wa.me/2348055108168" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="hover:text-white transition flex items-center gap-1.5 font-medium group"
+              title="Chat with us on WhatsApp"
+            >
+              <Phone className="w-3.5 h-3.5 text-amber-400 shrink-0 group-hover:scale-110 transition-transform" /> 
+              <span>{SCHOOL_INFO.phone1}</span>
+              <span className="text-[9px] bg-emerald-600/30 text-emerald-300 px-1 py-0.2 rounded font-bold uppercase tracking-wider">WhatsApp</span>
             </a>
             <span className="hidden sm:inline text-slate-700">|</span>
             <a href={`mailto:${SCHOOL_INFO.email}`} className="hover:text-white transition flex items-center gap-1">
@@ -587,6 +595,8 @@ export default function App() {
                     alt="i-Flier International School Logo" 
                     className="h-8 sm:h-10 w-auto max-h-10 object-contain"
                     referrerPolicy="no-referrer"
+                    loading="eager"
+                    fetchPriority="high"
                     onError={() => setLogoLoaded(false)}
                   />
                 ) : (
@@ -810,12 +820,18 @@ export default function App() {
       {/* HERO SECTION */}
       <section id="home" className="relative bg-gradient-to-b from-slate-900 via-slate-900 to-blue-950 text-white overflow-hidden py-16 sm:py-24">
         
-        {/* Subtle Campus Photography Background Overlay */}
-        <div 
-          className="absolute inset-0 opacity-10 bg-cover bg-center mix-blend-luminosity pointer-events-none scale-105"
-          style={{ backgroundImage: `url('https://www.iflierintlschl.org/wp-content/uploads/2022/03/cropped-DSC_4309-scaled-1-600x401.jpg')` }}
-        ></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900/95 to-slate-950/90 pointer-events-none"></div>
+        {/* Immersive Student & Campus Photography Background Group Behind Hero Content */}
+        <div className="absolute inset-0 grid grid-cols-1 sm:grid-cols-2 opacity-40 mix-blend-normal pointer-events-none filter brightness-105 scale-105">
+          <div 
+            className="bg-cover bg-center h-full transition-transform duration-1000 transform hover:scale-105"
+            style={{ backgroundImage: `url('https://www.iflierintlschl.org/wp-content/uploads/2019/10/GRADA-SENIOR.jpg')` }}
+          ></div>
+          <div 
+            className="bg-cover bg-center h-full transition-transform duration-1000 hidden sm:block transform hover:scale-105"
+            style={{ backgroundImage: `url('https://www.iflierintlschl.org/wp-content/uploads/2022/03/cropped-DSC_4309-scaled-1-600x401.jpg')` }}
+          ></div>
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-900/80 to-slate-950/90 pointer-events-none"></div>
 
         {/* Decorative Glows */}
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -887,6 +903,8 @@ export default function App() {
                     alt="i-Flier Senior Secondary School Graduating Class"
                     className="w-full h-64 sm:h-72 object-cover object-center group-hover:scale-105 transition duration-700"
                     referrerPolicy="no-referrer"
+                    loading="eager"
+                    fetchPriority="high"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
                   
@@ -2083,7 +2101,15 @@ export default function App() {
                     <Phone className="w-5 h-5 text-amber-400 shrink-0 mt-1" />
                     <div>
                       <strong className="block text-white">Phone Numbers:</strong>
-                      <p className="text-slate-300 text-xs">{SCHOOL_INFO.phone1} / {SCHOOL_INFO.phone2}</p>
+                      <p className="text-slate-300 text-xs flex flex-wrap items-center gap-1.5 pt-0.5">
+                        <a href="https://wa.me/2348055108168" target="_blank" rel="noopener noreferrer" className="text-amber-400 hover:underline font-semibold flex items-center gap-1">
+                          {SCHOOL_INFO.phone1} <span className="text-[9px] bg-emerald-600/30 text-emerald-300 px-1 rounded font-bold">WhatsApp</span>
+                        </a>
+                        <span>/</span>
+                        <a href="https://wa.me/2348150551033" target="_blank" rel="noopener noreferrer" className="text-amber-400 hover:underline font-semibold flex items-center gap-1">
+                          {SCHOOL_INFO.phone2} <span className="text-[9px] bg-emerald-600/30 text-emerald-300 px-1 rounded font-bold">WhatsApp</span>
+                        </a>
+                      </p>
                     </div>
                   </div>
 
