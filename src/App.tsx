@@ -382,8 +382,9 @@ export default function App() {
   const [articles, setArticles] = useState<any[]>(NEWS_ARTICLES);
   const [isWpConnected, setIsWpConnected] = useState(false);
 
-  // Sticky 'Back to Top' Floating Action Button State
+  // Sticky 'Back to Top' Floating Action Button State & Progress
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   // Gallery items filtered by active category tab
   const filteredGallery = CAMPUS_GALLERY.filter(
@@ -424,6 +425,12 @@ export default function App() {
         setShowBackToTop(window.scrollY > heroBottom - 80);
       } else {
         setShowBackToTop(window.scrollY > 450);
+      }
+
+      const totalScroll = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      if (totalScroll > 0) {
+        const currentProgress = (window.scrollY / totalScroll) * 100;
+        setScrollProgress(Math.min(100, Math.max(0, currentProgress)));
       }
     };
 
@@ -2367,13 +2374,41 @@ export default function App() {
           id="btn-back-to-top"
           onClick={scrollToTop}
           aria-label="Back to top"
-          title="Scroll back to top"
-          className="fixed bottom-6 right-6 z-40 bg-blue-900/95 hover:bg-blue-800 text-white p-3 sm:px-4 sm:py-3 rounded-full shadow-2xl hover:shadow-amber-500/20 border border-blue-700/70 hover:border-amber-400 transition-all duration-300 flex items-center gap-2 group backdrop-blur-md cursor-pointer animate-in fade-in slide-in-from-bottom-5 focus:outline-none focus:ring-2 focus:ring-amber-400"
+          title={`Scroll back to top (${Math.round(scrollProgress)}% scrolled)`}
+          className="fixed bottom-6 right-6 z-40 bg-slate-900/95 hover:bg-slate-900 text-white p-2 sm:px-3.5 sm:py-2.5 rounded-full shadow-2xl hover:shadow-amber-500/30 border border-slate-700/80 hover:border-amber-400 transition-all duration-300 flex items-center gap-2.5 group backdrop-blur-md cursor-pointer animate-in fade-in slide-in-from-bottom-5 focus:outline-none focus:ring-2 focus:ring-amber-400"
         >
-          <ChevronUp className="w-5 h-5 text-amber-400 group-hover:-translate-y-1 transition-transform duration-200" />
-          <span className="hidden sm:inline text-xs font-bold tracking-wider uppercase pr-1 text-slate-100">
-            Top
-          </span>
+          <div className="relative w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center">
+            <svg className="w-full h-full -rotate-90" viewBox="0 0 40 40">
+              <circle
+                cx="20"
+                cy="20"
+                r="16"
+                className="text-slate-800"
+                strokeWidth="3"
+                stroke="currentColor"
+                fill="none"
+              />
+              <circle
+                cx="20"
+                cy="20"
+                r="16"
+                className="text-amber-400 transition-all duration-150"
+                strokeWidth="3"
+                stroke="currentColor"
+                strokeDasharray="100.5"
+                strokeDashoffset={100.5 - (scrollProgress / 100) * 100.5}
+                strokeLinecap="round"
+                fill="none"
+              />
+            </svg>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <ChevronUp className="w-4 h-4 text-white group-hover:-translate-y-0.5 transition-transform duration-200" />
+            </div>
+          </div>
+          <div className="hidden sm:flex flex-col text-left pr-1">
+            <span className="text-[9px] font-bold text-slate-400 tracking-wider uppercase leading-none">Back to</span>
+            <span className="text-xs font-black text-white tracking-wide mt-0.5">Top ({Math.round(scrollProgress)}%)</span>
+          </div>
         </button>
       )}
 
