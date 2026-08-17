@@ -52,7 +52,7 @@ import {
   Sliders
 } from 'lucide-react';
 
-const SCHOOL_LOGO_URL = "https://www.iflierintlschl.org/wp-content/uploads/2018/05/logo-6.jpg";
+const SCHOOL_LOGO_URL = "https://www.iflierintlschl.org/wp-content/uploads/2018/05/logo-2-1-e1526719499231.png";
 const SCHOOL_FOOTER_LOGO_URL = "https://www.iflierintlschl.org/wp-content/uploads/2018/05/logo-2-1-e1526719499231.png";
 
 const SCHOOL_INFO = {
@@ -353,7 +353,6 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [selectedAcademic, setSelectedAcademic] = useState(ACADEMIC_DIVISIONS[0].id);
   const [portalModalOpen, setPortalModalOpen] = useState(false);
-  const [portalRole, setPortalRole] = useState<'student' | 'parent' | 'staff'>('student');
   const [logoLoaded, setLogoLoaded] = useState(true);
 
   // Policies Modal & Filter State
@@ -522,45 +521,45 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-amber-400 selection:text-slate-900">
+    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-amber-400 selection:text-slate-900 overflow-x-clip">
       
       {/* Top Bar with Contacts and Direct Links */}
-      <div className="bg-slate-900 text-slate-300 text-xs py-2 px-4 border-b border-slate-800">
+      <div className="bg-slate-900 text-slate-300 text-xs py-2 px-3 sm:px-4 border-b border-slate-800 w-full overflow-hidden">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
           
-          <div className="flex items-center gap-4 flex-wrap justify-center md:justify-start">
+          <div className="flex items-center gap-3 sm:gap-4 flex-wrap justify-center md:justify-start">
             <a href={`tel:${SCHOOL_INFO.phone1}`} className="hover:text-white transition flex items-center gap-1">
-              <Phone className="w-3 h-3 text-amber-400" /> {SCHOOL_INFO.phone1}
+              <Phone className="w-3 h-3 text-amber-400 shrink-0" /> {SCHOOL_INFO.phone1}
             </a>
             <span className="hidden sm:inline text-slate-700">|</span>
             <a href={`mailto:${SCHOOL_INFO.email}`} className="hover:text-white transition flex items-center gap-1">
-              <Mail className="w-3 h-3 text-amber-400" /> {SCHOOL_INFO.email}
+              <Mail className="w-3 h-3 text-amber-400 shrink-0" /> {SCHOOL_INFO.email}
             </a>
             <span className="hidden sm:inline text-slate-700">|</span>
             <span className="text-slate-400 hidden sm:inline flex items-center gap-1">
-              <Clock className="w-3 h-3 text-amber-400" /> {SCHOOL_INFO.hours}
+              <Clock className="w-3 h-3 text-amber-400 shrink-0" /> {SCHOOL_INFO.hours}
             </span>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <a 
               href="https://iflier1033fm.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-amber-400 hover:text-amber-300 transition flex items-center gap-1.5 font-medium px-2 py-0.5 rounded"
+              className="text-amber-400 hover:text-amber-300 transition flex items-center gap-1.5 font-medium px-2 py-0.5 rounded text-xs"
             >
-              <Radio className="w-3.5 h-3.5 text-amber-400" />
+              <Radio className="w-3.5 h-3.5 text-amber-400 shrink-0" />
               <span>i-Flier 103.3 FM Radio</span>
-              <ExternalLink className="w-3 h-3 text-slate-400" />
+              <ExternalLink className="w-3 h-3 text-slate-400 shrink-0" />
             </a>
             
             <button 
-              id="btn-open-erp"
+              id="btn-open-school-portal"
               onClick={() => setPortalModalOpen(true)}
-              className="bg-amber-500 hover:bg-amber-400 text-slate-950 px-3 py-1 rounded-full font-bold text-xs flex items-center gap-1 transition shadow-xs cursor-pointer"
+              className="bg-amber-500 hover:bg-amber-400 text-slate-950 px-3 py-1 rounded-full font-bold text-xs flex items-center gap-1.5 transition shadow-xs cursor-pointer"
             >
-              <Lock className="w-3 h-3" />
-              ERP Portal
+              <Lock className="w-3 h-3 shrink-0" />
+              School Portal
             </button>
           </div>
 
@@ -568,39 +567,39 @@ export default function App() {
       </div>
 
       {/* Main Navbar */}
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs w-full">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16 sm:h-20 gap-2 sm:gap-4">
             
             {/* Logo and Branding Displayed Clearly at Top Header */}
-            <div className="flex items-center gap-3 cursor-pointer shrink-0" onClick={() => navigateTo('home')}>
-              <div className="relative h-14 sm:h-16 flex items-center justify-center p-1 bg-white rounded-lg border border-slate-200 shadow-2xs">
+            <div className="flex items-center gap-2 sm:gap-3 cursor-pointer shrink-0 min-w-0" onClick={() => navigateTo('home')}>
+              <div className="relative h-10 sm:h-12 flex items-center justify-center p-1 bg-white rounded-xl border border-slate-200/80 shadow-2xs shrink-0">
                 {logoLoaded ? (
                   <img 
                     src={SCHOOL_LOGO_URL} 
-                    alt="i-Flier International School Official Logo" 
-                    className="h-12 sm:h-14 w-auto object-contain"
+                    alt="i-Flier International School Logo" 
+                    className="h-8 sm:h-10 w-auto max-h-10 object-contain"
                     referrerPolicy="no-referrer"
                     onError={() => setLogoLoaded(false)}
                   />
                 ) : (
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-900 via-indigo-900 to-amber-500 flex items-center justify-center text-white shadow-md font-black text-2xl border border-blue-800">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-gradient-to-br from-blue-900 via-indigo-900 to-amber-500 flex items-center justify-center text-white shadow-md font-black text-lg border border-blue-800">
                     iF
                   </div>
                 )}
               </div>
-              <div>
-                <h1 className="font-black text-lg sm:text-xl text-slate-900 tracking-tight leading-tight flex items-center gap-1.5">
+              <div className="shrink-0">
+                <h1 className="font-black text-sm sm:text-base md:text-lg text-slate-900 tracking-tight leading-tight">
                   i-Flier <span className="text-blue-900">International</span>
                 </h1>
-                <p className="text-xs text-amber-600 font-bold tracking-wide uppercase">
+                <p className="text-[9px] sm:text-[11px] text-amber-600 font-bold tracking-wide uppercase">
                   {SCHOOL_INFO.motto}
                 </p>
               </div>
             </div>
 
             {/* Desktop Navigation Links */}
-            <nav className="hidden lg:flex items-center gap-6 font-semibold text-sm text-slate-700">
+            <nav className="hidden xl:flex items-center gap-4 2xl:gap-5 font-semibold text-xs 2xl:text-sm text-slate-700 whitespace-nowrap">
               <button onClick={() => navigateTo('home')} className={`hover:text-blue-900 transition cursor-pointer ${activeTab === 'home' ? 'text-blue-900 font-bold' : ''}`}>Home</button>
               <button onClick={() => navigateTo('about')} className={`hover:text-blue-900 transition cursor-pointer ${activeTab === 'about' ? 'text-blue-900 font-bold' : ''}`}>About Us</button>
               <button onClick={() => navigateTo('academics')} className={`hover:text-blue-900 transition cursor-pointer ${activeTab === 'academics' ? 'text-blue-900 font-bold' : ''}`}>Academics</button>
@@ -616,29 +615,30 @@ export default function App() {
             </nav>
 
             {/* Desktop CTAs */}
-            <div className="hidden lg:flex items-center gap-3">
+            <div className="hidden sm:flex items-center gap-2 sm:gap-2.5 shrink-0">
               <a 
                 href="https://iflier1033fm.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-amber-800 hover:text-amber-900 bg-amber-50 hover:bg-amber-100 border border-amber-200 text-xs font-bold px-3 py-2 rounded-lg transition flex items-center gap-1.5"
+                className="text-amber-800 hover:text-amber-900 bg-amber-50 hover:bg-amber-100 border border-amber-200 text-xs font-bold px-2.5 sm:px-3 py-2 rounded-lg transition flex items-center gap-1.5 whitespace-nowrap"
               >
-                <Radio className="w-3.5 h-3.5 text-amber-600" />
-                <span>103.3 FM Radio</span>
-                <ExternalLink className="w-3 h-3 text-amber-600" />
+                <Radio className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                <span className="hidden md:inline">103.3 FM</span>
+                <span className="md:hidden">FM</span>
+                <ExternalLink className="w-3 h-3 text-amber-600 shrink-0" />
               </a>
 
               <button 
                 id="btn-apply-desktop"
                 onClick={() => navigateTo('admissions')} 
-                className="bg-blue-900 hover:bg-blue-800 text-white font-bold text-sm px-5 py-2.5 rounded-lg shadow-md hover:shadow-lg transition flex items-center gap-1.5 cursor-pointer"
+                className="bg-blue-900 hover:bg-blue-800 text-white font-bold text-xs sm:text-sm px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-lg shadow-md hover:shadow-lg transition flex items-center gap-1 cursor-pointer whitespace-nowrap"
               >
-                Apply Now <ChevronRight className="w-4 h-4" />
+                Apply <span className="hidden md:inline">Now</span> <ChevronRight className="w-4 h-4" />
               </button>
             </div>
 
             {/* Mobile Menu Button */}
-            <div className="lg:hidden flex items-center gap-2">
+            <div className="xl:hidden flex items-center gap-2">
               <button
                 id="btn-toggle-mobile-menu"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -654,7 +654,7 @@ export default function App() {
 
         {/* Mobile Dropdown Drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-3">
+          <div className="xl:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-3 max-h-[calc(100vh-5rem)] overflow-y-auto">
             <button onClick={() => navigateTo('home')} className="block w-full text-left py-2 font-medium text-slate-800 hover:text-blue-900 cursor-pointer">Home</button>
             <button onClick={() => navigateTo('about')} className="block w-full text-left py-2 font-medium text-slate-800 hover:text-blue-900 cursor-pointer">About Us & Beliefs</button>
             <button onClick={() => navigateTo('academics')} className="block w-full text-left py-2 font-medium text-slate-800 hover:text-blue-900 cursor-pointer">Academic Divisions</button>
@@ -665,9 +665,15 @@ export default function App() {
             <button onClick={() => navigateTo('gallery')} className="block w-full text-left py-2 font-medium text-slate-800 hover:text-blue-900 flex items-center gap-2 cursor-pointer">
               <Camera className="w-4 h-4 text-blue-900" /> Media & Video Gallery
             </button>
-            <button onClick={() => navigateTo('radio')} className="block w-full text-left py-2 font-medium text-amber-700 flex items-center gap-2 cursor-pointer">
-              <Radio className="w-4 h-4" /> i-Flier 103.3 FM Radio
-            </button>
+            <a 
+              href="https://iflier1033fm.com/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="block w-full text-left py-2 font-medium text-amber-700 flex items-center justify-between"
+            >
+              <span className="flex items-center gap-2"><Radio className="w-4 h-4" /> i-Flier 103.3 FM Radio</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
             <button onClick={() => navigateTo('admissions')} className="block w-full text-left py-2 font-medium text-slate-800 hover:text-blue-900 cursor-pointer">Admissions & Eligibility</button>
             <button onClick={() => navigateTo('news')} className="block w-full text-left py-2 font-medium text-slate-800 hover:text-blue-900 cursor-pointer">News & Articles</button>
             <button onClick={() => navigateTo('contact')} className="block w-full text-left py-2 font-medium text-slate-800 hover:text-blue-900 cursor-pointer">Contact & Map</button>
@@ -677,7 +683,7 @@ export default function App() {
                 onClick={() => { setMobileMenuOpen(false); setPortalModalOpen(true); }} 
                 className="w-full bg-slate-100 text-slate-900 py-2.5 rounded-lg font-semibold text-sm flex items-center justify-center gap-2 cursor-pointer"
               >
-                <Lock className="w-4 h-4" /> Access ERP Portal
+                <Lock className="w-4 h-4 text-amber-600" /> School Portal
               </button>
               <button 
                 onClick={() => navigateTo('admissions')} 
@@ -690,117 +696,104 @@ export default function App() {
         )}
       </header>
 
-      {/* ERP Login Modal */}
+      {/* School Portal Modal */}
       {portalModalOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden border border-slate-100">
+        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 animate-in fade-in duration-200 overflow-y-auto">
+          <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl max-w-lg w-full max-h-[90vh] flex flex-col my-auto overflow-hidden border border-slate-200">
             
-            <div className="bg-slate-900 text-white p-6 relative">
+            {/* Modal Header */}
+            <div className="bg-slate-900 text-white p-5 sm:p-6 relative shrink-0">
               <button 
                 onClick={() => setPortalModalOpen(false)} 
-                className="absolute top-4 right-4 text-slate-400 hover:text-white p-1 rounded-full transition cursor-pointer"
+                className="absolute top-4 right-4 text-slate-400 hover:text-white bg-white/10 hover:bg-white/20 p-2 rounded-full transition cursor-pointer"
+                aria-label="Close portal modal"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
-              <div className="w-10 h-10 bg-amber-500 rounded-lg flex items-center justify-center text-slate-950 font-bold mb-3">
-                <Lock className="w-5 h-5" />
+              
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-amber-500 rounded-xl sm:rounded-2xl flex items-center justify-center text-slate-950 font-black mb-3 sm:mb-4 shadow-md">
+                <Lock className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
-              <h3 className="text-xl font-bold">i-Flier ERP & Cloud Portal</h3>
-              <p className="text-xs text-slate-400 mt-1">Access real-time academic records, grades, fee bills, and attendance.</p>
+              
+              <h3 className="text-lg sm:text-2xl font-black text-white tracking-tight">
+                i-Flier ERP & Cloud Portal
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-300 mt-1 leading-relaxed">
+                Access real-time academic records, grades, fee bills, and attendance.
+              </p>
             </div>
 
-            <div className="p-6 space-y-4">
-              {/* Direct Launch Buttons to Real Azure / Citta Portals */}
-              <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-2">
-                <div className="text-xs font-bold text-slate-700 uppercase tracking-wide">Direct Cloud Access:</div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  <a 
-                    href={ERP_PORTAL_LINKS.azure} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="bg-blue-900 hover:bg-blue-800 text-white text-xs font-bold py-2 px-3 rounded-lg flex items-center justify-center gap-1.5 transition"
-                  >
-                    <span>Citta ERP Azure</span> <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
-                  <a 
-                    href={ERP_PORTAL_LINKS.cittaNuvola} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold py-2 px-3 rounded-lg flex items-center justify-center gap-1.5 transition"
-                  >
-                    <span>Citta Nuvola Portal</span> <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
-                </div>
+            {/* Modal Content - Direct Cloud Access */}
+            <div className="p-4 sm:p-6 space-y-4 overflow-y-auto max-h-[calc(90vh-140px)]">
+              
+              <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                Direct Cloud Access:
               </div>
 
-              {/* Role Select Buttons */}
-              <div className="grid grid-cols-3 gap-2 p-1 bg-slate-100 rounded-lg text-xs font-semibold">
-                <button
-                  onClick={() => setPortalRole('student')}
-                  className={`py-2 rounded-md transition cursor-pointer ${portalRole === 'student' ? 'bg-white text-blue-900 shadow-xs' : 'text-slate-600'}`}
+              {/* Azure Portal Card */}
+              <div className="bg-slate-50 hover:bg-slate-100/90 border border-slate-200/90 rounded-xl sm:rounded-2xl p-3.5 sm:p-4.5 transition flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 w-full">
+                <div className="space-y-1 min-w-0 flex-1">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-blue-600 shrink-0"></span>
+                    <h4 className="font-bold text-slate-900 text-sm sm:text-base truncate">Citta ERP Azure</h4>
+                  </div>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    Primary Microsoft Azure-hosted School ERP database for student dossiers, results, and administrative records.
+                  </p>
+                </div>
+                <a 
+                  href={ERP_PORTAL_LINKS.azure} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-blue-900 hover:bg-blue-800 text-white text-xs font-bold py-2.5 px-4 rounded-xl flex items-center justify-center gap-1.5 transition shadow-sm w-full sm:w-auto shrink-0"
                 >
-                  Student
-                </button>
-                <button
-                  onClick={() => setPortalRole('parent')}
-                  className={`py-2 rounded-md transition cursor-pointer ${portalRole === 'parent' ? 'bg-white text-blue-900 shadow-xs' : 'text-slate-600'}`}
-                >
-                  Parent
-                </button>
-                <button
-                  onClick={() => setPortalRole('staff')}
-                  className={`py-2 rounded-md transition cursor-pointer ${portalRole === 'staff' ? 'bg-white text-blue-900 shadow-xs' : 'text-slate-600'}`}
-                >
-                  Staff / Admin
-                </button>
+                  <span>Open Portal</span> <ExternalLink className="w-3.5 h-3.5" />
+                </a>
               </div>
 
-              <form onSubmit={(e) => { 
-                e.preventDefault(); 
-                window.open(ERP_PORTAL_LINKS.cittaNuvola, '_blank'); 
-                setPortalModalOpen(false); 
-              }} className="space-y-4">
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                    {portalRole === 'student' ? 'Matric / Student ID' : portalRole === 'parent' ? 'Parent Email / Phone' : 'Staff ID'}
-                  </label>
-                  <input 
-                    type="text" 
-                    required 
-                    placeholder={portalRole === 'student' ? 'e.g. IF/2026/049' : 'Enter registered identifier'}
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-900 text-sm bg-white"
-                  />
+              {/* Citta Nuvola Portal Card */}
+              <div className="bg-slate-50 hover:bg-slate-100/90 border border-slate-200/90 rounded-xl sm:rounded-2xl p-3.5 sm:p-4.5 transition flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 w-full">
+                <div className="space-y-1 min-w-0 flex-1">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-amber-500 shrink-0"></span>
+                    <h4 className="font-bold text-slate-900 text-sm sm:text-base truncate">Citta Nuvola Portal</h4>
+                  </div>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    Cloud portal for students, parents, and teachers to access report cards, assignments, and fee schedules.
+                  </p>
                 </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Password</label>
-                  <input 
-                    type="password" 
-                    required 
-                    placeholder="••••••••"
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-900 text-sm bg-white"
-                  />
-                </div>
-
-                <div className="flex items-center justify-between text-xs text-slate-500">
-                  <label className="flex items-center gap-1.5 cursor-pointer">
-                    <input type="checkbox" className="rounded text-blue-900" />
-                    Remember login
-                  </label>
-                  <a href={ERP_PORTAL_LINKS.cittaNuvola} target="_blank" rel="noopener noreferrer" className="text-blue-900 hover:underline">Forgot password?</a>
-                </div>
-
-                <button 
-                  type="submit" 
-                  className="w-full bg-blue-900 hover:bg-blue-800 text-white font-bold py-3 rounded-xl transition shadow-md flex items-center justify-center gap-2 text-sm cursor-pointer"
+                <a 
+                  href={ERP_PORTAL_LINKS.cittaNuvola} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold py-2.5 px-4 rounded-xl flex items-center justify-center gap-1.5 transition shadow-sm w-full sm:w-auto shrink-0"
                 >
-                  <Lock className="w-4 h-4" /> Launch Citta ERP Portal
-                </button>
-              </form>
+                  <span>Open Portal</span> <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+
+              {/* Information / Support Notice */}
+              <div className="bg-blue-50/70 border border-blue-100 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 text-xs text-slate-700 leading-relaxed space-y-1">
+                <div className="font-bold text-blue-950 flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-blue-800 shrink-0" />
+                  <span>Portal Access & Authentication:</span>
+                </div>
+                <p className="text-slate-600 pl-5">
+                  Direct login credentials are provided by the school administration upon enrollment. For credential recovery or technical questions, please contact the ICT records desk.
+                </p>
+              </div>
+
             </div>
 
-            <div className="bg-slate-50 p-4 border-t border-slate-100 text-center text-xs text-slate-500">
-              Need technical support? Contact <a href={`mailto:${SCHOOL_INFO.email}`} className="text-blue-900 font-semibold">{SCHOOL_INFO.email}</a>
+            {/* Modal Footer */}
+            <div className="bg-slate-50 px-4 sm:px-6 py-3.5 sm:py-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 shrink-0">
+              <span className="truncate pr-2">Need help? <a href={`mailto:${SCHOOL_INFO.email}`} className="text-blue-900 font-semibold hover:underline">{SCHOOL_INFO.email}</a></span>
+              <button 
+                onClick={() => setPortalModalOpen(false)}
+                className="text-slate-700 hover:text-slate-900 font-bold px-3 py-1.5 rounded-lg hover:bg-slate-200 transition cursor-pointer shrink-0"
+              >
+                Close
+              </button>
             </div>
 
           </div>
@@ -854,7 +847,7 @@ export default function App() {
                   onClick={() => setPortalModalOpen(true)}
                   className="w-full sm:w-auto bg-slate-800/90 hover:bg-slate-700 text-white font-semibold px-6 py-3.5 rounded-xl border border-slate-700 transition flex items-center justify-center gap-2 text-base cursor-pointer"
                 >
-                  <Lock className="w-4 h-4 text-amber-400" /> ERP Portal
+                  <Lock className="w-4 h-4 text-amber-400" /> School Portal
                 </button>
               </div>
 
@@ -2211,7 +2204,7 @@ export default function App() {
             <div className="space-y-3 text-xs">
               <h4 className="font-bold text-white text-sm uppercase tracking-wider">Portals & Policies</h4>
               <ul className="space-y-2">
-                <li><button onClick={() => setPortalModalOpen(true)} className="text-amber-400 hover:underline font-bold flex items-center gap-1 cursor-pointer"><Lock className="w-3 h-3" /> Citta ERP Portal</button></li>
+                <li><button onClick={() => setPortalModalOpen(true)} className="text-amber-400 hover:underline font-bold flex items-center gap-1 cursor-pointer"><Lock className="w-3 h-3" /> i-Flier School Portal</button></li>
                 <li><a href={ERP_PORTAL_LINKS.azure} target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition flex items-center gap-1"><ExternalLink className="w-3 h-3" /> Azure ERP Cloud</a></li>
                 <li><button onClick={() => navigateTo('policies')} className="hover:text-amber-400 transition cursor-pointer">20 School Policies</button></li>
                 <li><button onClick={() => navigateTo('admissions')} className="hover:text-amber-400 transition cursor-pointer">Admissions Eligibility</button></li>
