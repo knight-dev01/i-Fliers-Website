@@ -1,1 +1,49 @@
 @import "tailwindcss";
+
+@media print {
+  /* Hide non-printable elements */
+  header,
+  footer,
+  nav,
+  button,
+  .fixed,
+  #btn-back-to-top,
+  .whatsapp-float-btn,
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 12pt;
+    line-height: 1.5;
+  }
+
+  /* Ensure policies, curriculum, and admissions containers are clean and readable */
+  section {
+    padding: 1rem 0 !important;
+    margin: 0 !important;
+    page-break-inside: avoid;
+    background: white !important;
+    color: black !important;
+  }
+
+  h1, h2, h3, h4 {
+    color: black !important;
+    page-break-after: avoid;
+  }
+
+  .print-container, 
+  article, 
+  .policy-card,
+  .curriculum-section,
+  .admissions-section {
+    border: 1px solid #ccc !important;
+    padding: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
+    page-break-inside: avoid;
+    box-shadow: none !important;
+    background: white !important;
+  }
+}
