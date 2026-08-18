@@ -1,47 +1,36 @@
-import type { IncomingMessage, ServerResponse } from 'http';
 import nodemailer from 'nodemailer';
 
-export default async function handler(req: IncomingMessage & { body?: any, method?: string }, res: ServerResponse & { status: (code: number) => any, json: (data: any) => void }) {
-  // Enable CORS
-  res.setHeader = res.setHeader || (() => {});
+interface VercelRequest {
+  method?: string;
+  body?: any;
+  query?: Record<string, string | string[]>;
+}
+
+interface VercelResponse {
+  setHeader(name: string, value: string): void;
+  status(code: number): VercelResponse;
+  json(data: any): VercelResponse;
+}
+
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   if (req.method === 'OPTIONS') {
-    res.status(200);
-    res.json({ status: 'ok' });
-    return;
+    return res.status(200).json({ status: 'ok' });
   }
 
   if (req.method !== 'POST') {
-    res.status(405);
-    res.json({ success: false, error: 'Method not allowed' });
-    return;
+    return res.status(405).json({ success: false, error: 'Method not allowed' });
   }
 
   try {
-    // Parse body if string
-    let body = req.body;
-    if (typeof body === 'string') {
-      try { body = JSON.parse(body); } catch (e) { body = {}; }
-    }
-    // If running in serverless where req.body might need reading from chunks:
-    if (!body && typeof (req as any).on === 'function') {
-      body = await new Promise((resolve) => {
-        let data = '';
-        (req as any).on('data', (chunk: string) => { data += chunk; });
-        (req as any).on('end', () => {
-          try { resolve(JSON.parse(data)); } catch (e) { resolve({}); }
-        });
-      });
-    }
-
+    const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
     const email = body?.email;
+
     if (!email || typeof email !== 'string' || !email.includes('@')) {
-      res.status(400);
-      res.json({ success: false, error: 'Valid email address is required.' });
-      return;
+      return res.status(400).json({ success: false, error: 'Valid email address is required.' });
     }
 
     const host = process.env.SMTP_HOST || 'mail.iflierintlschl.org';
@@ -103,21 +92,27 @@ export default async function handler(req: IncomingMessage & { body?: any, metho
       text: `A new prospectus package was requested on the website by: ${email}`,
     };
 
-    if (pass) {
-      await transporter.sendMail(mailOptionsToUser);
-      await transporter.sendMail(mailOptionsToAdmin).catch(() => {});
+    if (!pass) {
+      return res.status(500).json({ 
+        success: false, 
+        error: 'SMTP Password (SMTP_PASS) is not configured in Vercel Environment Variables. Please add SMTP_PASS in Vercel Settings.' 
+      });
     }
 
-    res.status(200);
-    res.json({ 
+    await transporter.sendMail(mailOptionsToUser);
+    await transporter.sendMail(mailOptionsToAdmin).catch((err) => {
+      console.warn('Admin prospectus notification skipped:', err.message);
+    });
+
+    return res.status(200).json({ 
       success: true, 
-      message: pass 
-        ? `Prospectus package successfully sent to ${email}!` 
-        : `Prospectus package request logged for ${email} (Demo mode: configure SMTP_PASS in Vercel to send live emails).` 
+      message: 'Request submitted! Our admissions team will send the prospectus details to your email shortly.' 
     });
   } catch (error: any) {
     console.error('Error in request-prospectus:', error);
-    res.status(500);
-    res.json({ success: false, error: error.message || 'Failed to send email.' });
+    return res.status(500).json({ 
+      success: false, 
+      error: error.message || 'Failed to send prospectus email. Please verify SMTP server settings.' 
+    });
   }
 }

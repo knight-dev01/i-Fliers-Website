@@ -49,7 +49,11 @@ import {
   ChevronUp,
   ChevronLeft,
   LayoutGrid,
-  Sliders
+  Sliders,
+  AlertCircle,
+  Loader2,
+  AlertTriangle,
+  XCircle
 } from 'lucide-react';
 
 const SCHOOL_LOGO_URL = "https://www.iflierintlschl.org/wp-content/uploads/2018/05/logo-2-1-e1526719499231.png";
@@ -311,40 +315,72 @@ const CAMPUS_GALLERY = [
     category: "Video Broadcast",
     url: "https://player.vimeo.com/video/1116116353",
     directLink: "https://vimeo.com/1116116353",
-    thumbnail: "https://www.iflierintlschl.org/wp-content/uploads/2019/10/GRADA-SENIOR.jpg",
+    thumbnail: "https://i2.wp.com/www.iflierintlschl.org/wp-content/uploads/2019/10/GRADA-SENIOR-1024x678.jpg",
     description: "Student presentations, classroom interactions, speech events, and academic highlights from the i-Flier community."
   },
   {
     id: 3,
     type: "image",
-    title: "Senior Secondary School Graduating Class",
+    title: "Senior Secondary Graduating Class",
     category: "Graduation",
-    url: "https://www.iflierintlschl.org/wp-content/uploads/2019/10/GRADA-SENIOR.jpg",
-    description: "Our accomplished Senior Secondary students celebrated during valedictory and prize-giving celebrations."
+    url: "https://i2.wp.com/www.iflierintlschl.org/wp-content/uploads/2019/10/GRADA-SENIOR-1024x678.jpg",
+    description: "Our accomplished Senior Secondary students celebrated during valedictory and prize-giving ceremonies."
   },
   {
     id: 4,
+    type: "image",
+    title: "Primary School Academic Excellence",
+    category: "Primary Division",
+    url: "https://i2.wp.com/www.iflierintlschl.org/wp-content/uploads/2019/10/PRIMARY-1024x732.jpg",
+    description: "Primary division pupils engaged in interactive foundational learning and character development."
+  },
+  {
+    id: 5,
+    type: "image",
+    title: "Valedictory & Graduand Honors",
+    category: "Graduation",
+    url: "https://i0.wp.com/www.iflierintlschl.org/wp-content/uploads/2019/10/1819-GRADUAND-1-678x1024.jpg",
+    description: "Celebrating outstanding academic performance and moral discipline during annual graduation."
+  },
+  {
+    id: 6,
+    type: "image",
+    title: "Campus Facilities & Student Events",
+    category: "Campus Life",
+    url: "https://www.iflierintlschl.org/wp-content/uploads/2022/03/DSC_4214-1-1536x1025.jpg",
+    description: "Spacious campus grounds, modern infrastructure, and student activities at Egbeda, Ibadan."
+  },
+  {
+    id: 7,
+    type: "image",
+    title: "Cultural & Graduation Celebrations",
+    category: "Culture & Arts",
+    url: "https://www.iflierintlschl.org/wp-content/uploads/2019/10/GRADUAND-DANCING.jpg",
+    description: "Students showcasing rich cultural heritage and celebratory dance performances."
+  },
+  {
+    id: 8,
+    type: "image",
+    title: "Student Community & Group Activities",
+    category: "Campus Life",
+    url: "https://www.iflierintlschl.org/wp-content/uploads/2022/03/DSC_4236-1536x1025.jpg",
+    description: "Vibrant student interactions, teamwork, and co-curricular enrichment programs."
+  },
+  {
+    id: 9,
+    type: "image",
+    title: "Assembly & Campus Morning Devotions",
+    category: "Campus Life",
+    url: "https://www.iflierintlschl.org/wp-content/uploads/2022/03/cropped-DSC_4236-1-scaled-1.jpg",
+    description: "Students gathered in official school uniform for morning assembly and spiritual devotions."
+  },
+  {
+    id: 10,
     type: "image",
     title: "School Leadership & Principal Administration",
     category: "Leadership",
     url: "https://www.iflierintlschl.org/wp-content/uploads/2019/10/PRINCIP.jpg",
     description: "Elder Olugboyega Adedeji and the seasoned educational leadership team ensuring quality and discipline."
-  },
-  {
-    id: 5,
-    type: "image",
-    title: "i-Flier Campus Life & Student Assembly",
-    category: "Campus Life",
-    url: "https://www.iflierintlschl.org/wp-content/uploads/2022/03/cropped-DSC_4309-scaled-1-600x401.jpg",
-    description: "Students in official school uniform at morning devotions and assembly on the Egbeda campus."
-  },
-  {
-    id: 6,
-    type: "image",
-    title: "Modern Computer-Based Test (CBT) & E-Classroom Laboratory",
-    category: "Technology",
-    url: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80",
-    description: "State-of-the-art computer testing center equipped for digital literacy and UTME/JAMB drills."
   }
 ];
 
@@ -366,7 +402,7 @@ export default function App() {
   const [isAutoSliding, setIsAutoSliding] = useState(true);
   const [galleryViewMode, setGalleryViewMode] = useState<'slider' | 'grid'>('slider');
 
-  // Admissions Form State
+  // Admissions Form State & Real Error Handling
   const [formData, setFormData] = useState({
     parentName: '',
     email: '',
@@ -376,6 +412,15 @@ export default function App() {
     message: ''
   });
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [inquiryError, setInquiryError] = useState<string | null>(null);
+  const [isSubmittingInquiry, setIsSubmittingInquiry] = useState(false);
+
+  // Prospectus Request Modal State & Real Error Handling
+  const [prospectusModalOpen, setProspectusModalOpen] = useState(false);
+  const [prospectusEmail, setProspectusEmail] = useState('');
+  const [prospectusLoading, setProspectusLoading] = useState(false);
+  const [prospectusError, setProspectusError] = useState<string | null>(null);
+  const [prospectusSuccess, setProspectusSuccess] = useState<string | null>(null);
 
   // Search Filter state for news
   const [newsSearch, setNewsSearch] = useState('');
@@ -523,22 +568,56 @@ export default function App() {
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.parentName || !formData.phone) return;
+    if (!formData.parentName || !formData.phone) {
+      setInquiryError('Parent / Guardian name and phone number are required.');
+      return;
+    }
+    setInquiryError(null);
+    setIsSubmittingInquiry(true);
     try {
       const res = await fetch('/api/inquiry', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       });
-      const data = await res.json();
-      if (data.success) {
+      const data = await res.json().catch(() => null);
+      if (res.ok && data?.success) {
         setFormSubmitted(true);
       } else {
-        alert(data.error || 'Failed to submit inquiry.');
+        setInquiryError(data?.error || `Server Error (${res.status}): Failed to submit admission inquiry.`);
       }
-    } catch (err) {
-      // Fallback local success if offline/network issue
-      setFormSubmitted(true);
+    } catch (err: any) {
+      setInquiryError(err?.message || 'Network connection error. Failed to reach the admissions server.');
+    } finally {
+      setIsSubmittingInquiry(false);
+    }
+  };
+
+  const handleProspectusSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!prospectusEmail || !prospectusEmail.includes('@')) {
+      setProspectusError('Please enter a valid email address.');
+      return;
+    }
+    setProspectusError(null);
+    setProspectusSuccess(null);
+    setProspectusLoading(true);
+    try {
+      const res = await fetch('/api/request-prospectus', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: prospectusEmail })
+      });
+      const data = await res.json().catch(() => null);
+      if (res.ok && data?.success) {
+        setProspectusSuccess(data.message || 'Request submitted! Our team will send the prospectus details to your email shortly.');
+      } else {
+        setProspectusError(data?.error || `Server Error (${res.status}): Failed to send prospectus.`);
+      }
+    } catch (err: any) {
+      setProspectusError(err?.message || 'Network connection error. Failed to reach prospectus server.');
+    } finally {
+      setProspectusLoading(false);
     }
   };
 
@@ -1524,36 +1603,77 @@ export default function App() {
               </div>
 
               {/* Request Prospectus Box */}
-              <div className="p-6 bg-amber-50 border border-amber-200 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                  <h4 className="font-bold text-slate-900 text-sm">Need School Prospectus?</h4>
-                  <p className="text-xs text-slate-600">Request details on fees, curriculum, and boarding guidelines via email.</p>
+              <div className="p-6 bg-amber-50 border border-amber-200 rounded-2xl space-y-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div>
+                    <h4 className="font-bold text-slate-900 text-sm">Need School Prospectus?</h4>
+                    <p className="text-xs text-slate-600">Request details on fees, curriculum, and boarding guidelines via email.</p>
+                  </div>
+                  {!prospectusModalOpen && (
+                    <button 
+                      onClick={() => {
+                        setProspectusModalOpen(true);
+                        setProspectusError(null);
+                        setProspectusSuccess(null);
+                      }} 
+                      className="bg-amber-500 hover:bg-amber-400 text-slate-950 px-4 py-2.5 rounded-lg font-bold text-xs shrink-0 transition cursor-pointer flex items-center justify-center gap-1.5 shadow-sm"
+                    >
+                      <Mail className="w-3.5 h-3.5" /> Request via Email
+                    </button>
+                  )}
                 </div>
-                <button 
-                  onClick={async () => {
-                    const email = prompt("Enter your email address to receive the i-Flier School Prospectus package via info@iflierintlschl.org:");
-                    if (email) {
-                      try {
-                        const res = await fetch('/api/request-prospectus', {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({ email })
-                        });
-                        const data = await res.json();
-                        if (data.success) {
-                          alert(data.message);
-                        } else {
-                          alert(data.error || 'Failed to send prospectus email.');
-                        }
-                      } catch (err) {
-                        alert('Network error connecting to mail server.');
-                      }
-                    }
-                  }} 
-                  className="bg-amber-500 hover:bg-amber-400 text-slate-950 px-4 py-2.5 rounded-lg font-bold text-xs shrink-0 transition cursor-pointer flex items-center justify-center gap-1.5 shadow-sm"
-                >
-                  <Mail className="w-3.5 h-3.5" /> Request via Email
-                </button>
+
+                {prospectusModalOpen && (
+                  <form onSubmit={handleProspectusSubmit} className="pt-2 border-t border-amber-200 space-y-3 animate-in fade-in duration-200">
+                    {prospectusError && (
+                      <div className="bg-rose-50 border border-rose-200 text-rose-900 p-3 rounded-xl text-xs flex items-start gap-2.5">
+                        <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
+                        <div>
+                          <strong className="font-bold block text-rose-950">Delivery Failed:</strong>
+                          <span>{prospectusError}</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {prospectusSuccess ? (
+                      <div className="bg-emerald-50 border border-emerald-200 text-emerald-900 p-3 rounded-xl text-xs flex items-center gap-2.5">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                        <span className="font-medium">{prospectusSuccess}</span>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col sm:flex-row gap-2">
+                        <input 
+                          type="email" 
+                          required 
+                          placeholder="Enter parent or guardian email..." 
+                          value={prospectusEmail}
+                          onChange={(e) => setProspectusEmail(e.target.value)}
+                          className="flex-1 px-3.5 py-2 rounded-lg border border-amber-300 focus:outline-none focus:ring-2 focus:ring-blue-900 text-xs bg-white text-slate-900"
+                        />
+                        <div className="flex gap-2">
+                          <button 
+                            type="submit" 
+                            disabled={prospectusLoading}
+                            className="bg-blue-900 hover:bg-blue-800 disabled:opacity-60 text-white px-4 py-2 rounded-lg font-bold text-xs shrink-0 transition cursor-pointer flex items-center justify-center gap-1.5 shadow-sm"
+                          >
+                            {prospectusLoading ? (
+                              <>Sending... <Loader2 className="w-3.5 h-3.5 animate-spin" /></>
+                            ) : (
+                              <>Send Package <Send className="w-3.5 h-3.5" /></>
+                            )}
+                          </button>
+                          <button 
+                            type="button" 
+                            onClick={() => setProspectusModalOpen(false)}
+                            className="bg-slate-200 hover:bg-slate-300 text-slate-700 px-3 py-2 rounded-lg font-bold text-xs transition cursor-pointer"
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </form>
+                )}
               </div>
             </div>
 
@@ -1570,14 +1690,24 @@ export default function App() {
                     Thank you, <strong>{formData.parentName}</strong>. Our admissions officer will contact you at <strong>{formData.phone}</strong> regarding entry into <strong>{formData.level}</strong>.
                   </p>
                   <button 
-                    onClick={() => { setFormSubmitted(false); setFormData({ parentName: '', email: '', phone: '', studentName: '', level: 'Primary School', message: '' }); }} 
-                    className="bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-lg mt-2 cursor-pointer"
+                    onClick={() => { setFormSubmitted(false); setInquiryError(null); setFormData({ parentName: '', email: '', phone: '', studentName: '', level: 'Primary School', message: '' }); }} 
+                    className="bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-lg mt-2 cursor-pointer hover:bg-emerald-800 transition"
                   >
                     Send Another Request
                   </button>
                 </div>
               ) : (
                 <form onSubmit={handleFormSubmit} className="space-y-4">
+                  {inquiryError && (
+                    <div className="bg-rose-50 border border-rose-200 text-rose-900 p-4 rounded-xl text-xs space-y-1 flex items-start gap-3">
+                      <AlertCircle className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
+                      <div>
+                        <h5 className="font-bold text-rose-950">Submission Error</h5>
+                        <p className="text-rose-700">{inquiryError}</p>
+                      </div>
+                    </div>
+                  )}
+
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">Parent / Guardian Full Name *</label>
                     <input 
@@ -1654,9 +1784,14 @@ export default function App() {
 
                   <button 
                     type="submit" 
-                    className="w-full bg-blue-900 hover:bg-blue-800 text-white font-bold py-3.5 rounded-xl transition shadow-md flex items-center justify-center gap-2 text-sm cursor-pointer"
+                    disabled={isSubmittingInquiry}
+                    className="w-full bg-blue-900 hover:bg-blue-800 disabled:opacity-60 text-white font-bold py-3.5 rounded-xl transition shadow-md flex items-center justify-center gap-2 text-sm cursor-pointer"
                   >
-                    Submit Admission Inquiry <Send className="w-4 h-4" />
+                    {isSubmittingInquiry ? (
+                      <>Sending Inquiry... <Loader2 className="w-4 h-4 animate-spin" /></>
+                    ) : (
+                      <>Submit Admission Inquiry <Send className="w-4 h-4" /></>
+                    )}
                   </button>
                 </form>
               )}

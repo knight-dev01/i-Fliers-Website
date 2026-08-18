@@ -1,45 +1,36 @@
-import type { IncomingMessage, ServerResponse } from 'http';
 import nodemailer from 'nodemailer';
 
-export default async function handler(req: IncomingMessage & { body?: any, method?: string }, res: ServerResponse & { status: (code: number) => any, json: (data: any) => void }) {
-  res.setHeader = res.setHeader || (() => {});
+interface VercelRequest {
+  method?: string;
+  body?: any;
+  query?: Record<string, string | string[]>;
+}
+
+interface VercelResponse {
+  setHeader(name: string, value: string): void;
+  status(code: number): VercelResponse;
+  json(data: any): VercelResponse;
+}
+
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   if (req.method === 'OPTIONS') {
-    res.status(200);
-    res.json({ status: 'ok' });
-    return;
+    return res.status(200).json({ status: 'ok' });
   }
 
   if (req.method !== 'POST') {
-    res.status(405);
-    res.json({ success: false, error: 'Method not allowed' });
-    return;
+    return res.status(405).json({ success: false, error: 'Method not allowed' });
   }
 
   try {
-    let body = req.body;
-    if (typeof body === 'string') {
-      try { body = JSON.parse(body); } catch (e) { body = {}; }
-    }
-    if (!body && typeof (req as any).on === 'function') {
-      body = await new Promise((resolve) => {
-        let data = '';
-        (req as any).on('data', (chunk: string) => { data += chunk; });
-        (req as any).on('end', () => {
-          try { resolve(JSON.parse(data)); } catch (e) { resolve({}); }
-        });
-      });
-    }
-
+    const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
     const { parentName, phone, email, studentName, level, message } = body || {};
 
     if (!parentName || !phone) {
-      res.status(400);
-      res.json({ success: false, error: 'Parent name and phone number are required.' });
-      return;
+      return res.status(400).json({ success: false, error: 'Parent name and phone number are required.' });
     }
 
     const host = process.env.SMTP_HOST || 'mail.iflierintlschl.org';
@@ -55,7 +46,6 @@ export default async function handler(req: IncomingMessage & { body?: any, metho
       auth: { user, pass },
     });
 
-    // Email to School Admin
     const mailOptionsToAdmin = {
       from: `"i-Flier Admissions Portal" <${fromEmail}>`,
       to: user,
@@ -76,7 +66,6 @@ export default async function handler(req: IncomingMessage & { body?: any, metho
       `,
     };
 
-    // Optional confirmation email to parent if email provided
     let mailOptionsToParent = null;
     if (email && email.includes('@')) {
       mailOptionsToParent = {
@@ -93,11 +82,11 @@ export default async function handler(req: IncomingMessage & { body?: any, metho
             <p style="color: #334155; font-size: 15px;">Dear ${parentName},</p>
             
             <p style="color: #334155; font-size: 15px; line-height: 1.6;">
-              Thank you for reaching out to us regarding admission into <strong>${level || 'our school'}</strong> for <strong>{studentName || 'your child'}</strong>. 
+              Thank you for reaching out to us regarding admission into <strong>${level || 'our school'}</strong> for <strong>${studentName || 'your child'}</strong>. 
             </p>
 
             <p style="color: #334155; font-size: 15px; line-height: 1.6;">
-              Our admissions team has received your details and will contact you via phone (<strong>{phone}</strong>) or email shortly to guide you through the next steps and entrance assessment guidelines.
+              Our admissions team has received your details and will contact you via phone (<strong>${phone}</strong>) or email shortly to guide you through the next steps and entrance assessment guidelines.
             </p>
 
             <div style="margin-top: 30px; border-top: 1px solid #e2e8f0; padding-top: 15px; text-align: center; color: #64748b; font-size: 12px;">
@@ -108,24 +97,30 @@ export default async function handler(req: IncomingMessage & { body?: any, metho
       };
     }
 
-    if (pass) {
-      await transporter.sendMail(mailOptionsToAdmin);
-      if (mailOptionsToParent) {
-        await transporter.sendMail(mailOptionsToParent).catch(() => {});
-      }
+    if (!pass) {
+      return res.status(500).json({ 
+        success: false, 
+        error: 'SMTP Password (SMTP_PASS) is not configured in Vercel Environment Variables. Please set SMTP_PASS in Vercel Settings.' 
+      });
     }
 
-    res.status(200);
-    res.json({ 
+    await transporter.sendMail(mailOptionsToAdmin);
+    if (mailOptionsToParent) {
+      await transporter.sendMail(mailOptionsToParent).catch((err) => {
+        console.warn('Parent confirmation email skipped:', err.message);
+      });
+    }
+
+    return res.status(200).json({ 
       success: true, 
-      message: pass 
-        ? 'Inquiry successfully sent to school admissions!' 
-        : 'Inquiry received (Demo mode: configure SMTP_PASS in Vercel to send live emails).' 
+      message: 'Inquiry successfully sent to school admissions!' 
     });
 
   } catch (error: any) {
     console.error('Error in inquiry API:', error);
-    res.status(500);
-    res.json({ success: false, error: error.message || 'Failed to submit inquiry.' });
+    return res.status(500).json({ 
+      success: false, 
+      error: error.message || 'Failed to submit inquiry. Please verify SMTP server configuration.' 
+    });
   }
 }
