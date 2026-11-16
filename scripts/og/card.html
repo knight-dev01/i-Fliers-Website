@@ -1,0 +1,55 @@
+<!doctype html>
+<!--
+  Source for public/og-image.jpg (1200x630). Regenerate with:
+  msedge --headless=new --disable-gpu --hide-scrollbars --force-device-scale-factor=1 \
+    --window-size=1200,630 --screenshot=og-image.png card.html
+  then re-encode the PNG to JPEG (quality ~90) as public/og-image.jpg.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body { width: 1200px; height: 630px; overflow: hidden; }
+      .card {
+        position: relative; width: 1200px; height: 630px; overflow: hidden;
+        background: #0f172a; color: #fff; font-family: "Segoe UI", Arial, sans-serif;
+      }
+      .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      .scrim {
+        position: absolute; inset: 0;
+        background: linear-gradient(90deg, #0f172a 0%, #0f172a 40%, rgba(15, 23, 42, 0.92) 58%, rgba(15, 23, 42, 0.2) 100%);
+      }
+      .copy {
+        position: relative; width: 690px; height: 100%; padding: 54px 56px 48px;
+        display: flex; flex-direction: column; justify-content: space-between;
+      }
+      .mark {
+        width: 108px; height: 108px; background: #fff; border-radius: 16px;
+        display: flex; align-items: center; justify-content: center;
+      }
+      .mark img { width: 78px; height: auto; display: block; }
+      .rule { width: 72px; height: 6px; background: #f59e0b; margin-bottom: 24px; }
+      h1 { font-size: 54px; line-height: 1.05; letter-spacing: -0.5px; font-weight: 700; }
+      .motto { margin-top: 18px; font-size: 25px; color: #fbbf24; font-weight: 600; }
+      .levels { margin-top: 24px; font-size: 21px; color: #cbd5e1; line-height: 1.5; }
+      .foot { font-size: 18px; color: #94a3b8; }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <img class="bg" src="campus-1200.jpg" alt="" />
+      <div class="scrim"></div>
+      <div class="copy">
+        <div class="mark"><img src="logo.png" alt="i-Flier International School crest" /></div>
+        <div>
+          <div class="rule"></div>
+          <h1>i-Flier International School</h1>
+          <div class="motto">Inspired By Excellence &amp; Success</div>
+          <div class="levels">Nursery, Primary and Secondary education<br />Egbeda, Ibadan, Oyo State</div>
+        </div>
+        <div class="foot">WASSCE, NECO and UTME preparation | Campus radio 103.3 FM</div>
+      </div>
+    </div>
+  </body>
+</html>
