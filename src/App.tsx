@@ -16,9 +16,8 @@ import {
   Clock,
   Shield,
   Heart,
-  Sparkles,
+  Lightbulb,
   ChevronRight,
-  ChevronDown,
   Menu,
   X,
   Search,
@@ -27,18 +26,14 @@ import {
   Play,
   Pause,
   Calendar,
-  ArrowRight,
   Lock,
   Building,
   Laptop,
   Microscope,
   Trophy,
   Send,
-  Volume2,
-  VolumeX,
   UserCheck,
   Compass,
-  Image as ImageIcon,
   Film,
   Camera,
   Maximize2,
@@ -51,9 +46,7 @@ import {
   LayoutGrid,
   Sliders,
   AlertCircle,
-  Loader2,
-  AlertTriangle,
-  XCircle
+  Loader2
 } from 'lucide-react';
 
 const SCHOOL_LOGO_URL = "https://www.iflierintlschl.org/wp-content/uploads/2018/05/logo-2-1-e1526719499231.png";
@@ -67,7 +60,7 @@ const SCHOOL_INFO = {
   phone1: "+234 805 510 8168",
   phone2: "+234 815 055 1033",
   email: "info@iflierintlscl.org",
-  hours: "Monday - Friday: 8:00 AM - 2:00 PM",
+  hours: "Monday - Thursday: 8:00 AM - 4:00 PM | Friday: 8:00 AM - 1:10 PM",
   radioFrequency: "103.3 FM",
   founder: "Prince Charles Ilelabayo Babarimisa",
   principal: "Elder Olugboyega Adedeji"
@@ -90,7 +83,7 @@ const CORE_VALUES = [
   { name: "Self-Discipline", desc: "Focus, perseverance, and high moral standards.", icon: CheckCircle2 },
   { name: "Respect", desc: "Honoring self, peers, staff, and the global community.", icon: Heart },
   { name: "Integrity", desc: "Unwavering honesty and strong character.", icon: Lock },
-  { name: "Creativity", desc: "Fostering innovation, critical thinking, and discovery.", icon: Sparkles },
+  { name: "Creativity", desc: "Fostering innovation, critical thinking, and discovery.", icon: Lightbulb },
   { name: "Service", desc: "Giving back and leading through compassionate action.", icon: Users }
 ];
 
@@ -175,13 +168,7 @@ const ACADEMIC_DIVISIONS = [
     tagline: "Learning is Fun! Emphasis on observation, interaction and direct guidance",
     description: "The Pre-School curriculum teaches children to think and use their talents effectively while recognizing their self-worth. It incorporates active learning with colours, shapes, numbers, and alphabets consciously geared towards enhancing academic foundation.",
     highlights: ["Learning by Observation & Play", "Phonics & Numeracy Foundation", "Creative Arts & Rhymes", "French & Communication Skills"],
-    badge: "Early Years",
-    curriculumDetails: "Thrust: 'Learning is Fun!' Pupils are consciously provided with experiences geared towards enhancing academic skills through multisensory activities.",
-    subjects: [
-      "Mathematics", "Communication Skills", "Health Habits", "Moral Instructions",
-      "Rhymes", "Basic Science", "Social Studies", "Home Economics",
-      "Creative Arts", "Music", "French Language"
-    ]
+    badge: "Early Years"
   },
   {
     id: "primary",
@@ -190,14 +177,7 @@ const ACADEMIC_DIVISIONS = [
     tagline: "Nurturing curiosity, core academics, cursive handwriting & moral foundation",
     description: "Our Primary curriculum merges rigorous standards-based instruction with hands-on learning. We develop well-rounded children with strong communication skills, mathematical reasoning, and high moral discipline.",
     highlights: ["STEM & Basic ICT", "Quantitative & Verbal Aptitude", "Cursive Handwriting Mastery", "Excursions & Co-curricular"],
-    badge: "Elementary",
-    curriculumDetails: "Rigorous primary foundational program aligned with Federal Ministry of Education and international elementary benchmarks.",
-    subjects: [
-      "English Language", "Mathematics", "Basic Science & Technology", "Social Studies",
-      "Civic Education", "Computer Studies / ICT", "Agricultural Science", "Creative Arts",
-      "Music", "French Language", "Yoruba Language", "Physical & Health Education",
-      "Christian Religious Knowledge", "Quantitative Aptitude", "Verbal Aptitude"
-    ]
+    badge: "Elementary"
   },
   {
     id: "jss",
@@ -206,14 +186,7 @@ const ACADEMIC_DIVISIONS = [
     tagline: "Pre-vocational and academic mastery bridging into senior excellence",
     description: "As stated by the National Policy in Education, i-Flier runs a robust Junior Secondary School curriculum taught by seasoned, qualified teachers. Prepares students thoroughly for the BECE exams while honing critical thinking.",
     highlights: ["Basic Science & Tech Labs", "Computer-Based Testing Prep", "Leadership & Career Guidance", "Sports & Media Clubs"],
-    badge: "Lower Secondary",
-    curriculumDetails: "Prepares candidates for the Basic Education Certificate Examination (BECE) administered by NECO and Oyo State Ministry of Education.",
-    subjects: [
-      "1. English Language", "2. Mathematics", "3. Basic Science", "4. Basic Technology",
-      "5. Social Studies", "6. French Language", "7. Business Studies", "8. Home Economics",
-      "9. Yoruba Language", "10. Agricultural Science", "11. Computer Studies", "12. Christian Religious Knowledge",
-      "13. Fine Arts", "14. Music", "15. Physical and Health Education", "16. Civic Education"
-    ]
+    badge: "Lower Secondary"
   },
   {
     id: "sss",
@@ -223,16 +196,7 @@ const ACADEMIC_DIVISIONS = [
     description: "Broadening students’ knowledge across Sciences, Arts, Social Sciences, and Vocational Trade subjects. Seasoned educators and equipped laboratories ensure outstanding performances in WASSCE, NECO SSCE, and UTME.",
     highlights: ["WASSCE & NECO SSCE Prep", "Trade Subjects & Vocational Skills", "Advanced Physics, Chem & Bio Labs", "University Entry Counseling"],
     badge: "Upper Secondary",
-    curriculumDetails: "Students offer 9-11 subjects in SS1, 9-10 in SS2, and 9 in SS3. All students take English, Mathematics, 1 Trade subject, and 1 Science subject, with electives tailored to their career aspirations.",
     tradeSubjects: ["Animal Husbandry", "Data Processing", "Store-Keeping"],
-    subjects: [
-      "English Language", "Mathematics", "Civic Education", "Yoruba",
-      "Physics", "Chemistry", "Biology", "Agricultural Science",
-      "Further Mathematics", "Technical Drawing", "Computer Studies",
-      "Economics", "Government", "Financial Accounting", "Commerce", "Geography",
-      "Literature in English", "Christian Religious Studies",
-      "Animal Husbandry (Trade)", "Data Processing (Trade)", "Store-Keeping (Trade)"
-    ],
     examBoards: [
       "West African Senior School Certificate Examination (WASSCE / WAEC)",
       "National Examination Council Senior School Certificate (NECO SSCE)",
@@ -247,11 +211,7 @@ const ACADEMIC_DIVISIONS = [
     tagline: "Specialized exam prep, Computer-Based Test drills, and academic empowerment",
     description: "An intensive tutorial facility equipped with a modern Computer Based Test (CBT) laboratory to drill students for UTME/JAMB, POST-UTME, and external WAEC/NECO resits with consistently high success rates.",
     highlights: ["High-speed CBT Software Practice", "Subject Specialist Educators", "Weekly Mock Tests & Detailed Analytics", "Proven High Pass Rate"],
-    badge: "Exam Prep Hub",
-    curriculumDetails: "Targeted subject crash courses, past question analysis, speed & accuracy drills, and career mentoring.",
-    subjects: [
-      "JAMB / UTME 4-Subject Combinations", "WAEC / NECO Remedial Subjects", "POST-UTME University Drills", "Digital Computer Test Literacy"
-    ]
+    badge: "Exam Prep Hub"
   }
 ];
 
@@ -715,7 +675,7 @@ export default function App() {
               <button onClick={() => navigateTo('about')} className={`hover:text-blue-900 transition cursor-pointer ${activeTab === 'about' ? 'text-blue-900 font-bold' : ''}`}>About Us</button>
               <button onClick={() => navigateTo('academics')} className={`hover:text-blue-900 transition cursor-pointer ${activeTab === 'academics' ? 'text-blue-900 font-bold' : ''}`}>Academics</button>
               <button onClick={() => navigateTo('policies')} className={`hover:text-blue-900 transition cursor-pointer flex items-center gap-1 ${activeTab === 'policies' ? 'text-blue-900 font-bold' : ''}`}>
-                <FileText className="w-3.5 h-3.5" /> Policies
+                <FileText className="w-3.5 h-3.5" /> Code of Conduct
               </button>
               <button onClick={() => navigateTo('facilities')} className={`hover:text-blue-900 transition cursor-pointer ${activeTab === 'facilities' ? 'text-blue-900 font-bold' : ''}`}>Facilities</button>
               <button onClick={() => navigateTo('gallery')} className={`hover:text-blue-900 transition cursor-pointer flex items-center gap-1 ${activeTab === 'gallery' ? 'text-blue-900 font-bold' : ''}`}>
@@ -742,7 +702,7 @@ export default function App() {
               <button 
                 id="btn-apply-desktop"
                 onClick={() => navigateTo('admissions')} 
-                className="bg-blue-900 hover:bg-blue-800 text-white font-bold text-xs sm:text-sm px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-lg shadow-md hover:shadow-lg transition flex items-center gap-1 cursor-pointer whitespace-nowrap"
+                className="bg-blue-900 hover:bg-blue-800 text-white font-bold text-xs sm:text-sm px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-lg shadow-md transition flex items-center gap-1 cursor-pointer whitespace-nowrap"
               >
                 Apply <span className="hidden md:inline">Now</span> <ChevronRight className="w-4 h-4" />
               </button>
@@ -770,7 +730,7 @@ export default function App() {
             <button onClick={() => navigateTo('about')} className="block w-full text-left py-2 font-medium text-slate-800 hover:text-blue-900 cursor-pointer">About Us & Beliefs</button>
             <button onClick={() => navigateTo('academics')} className="block w-full text-left py-2 font-medium text-slate-800 hover:text-blue-900 cursor-pointer">Academic Divisions</button>
             <button onClick={() => navigateTo('policies')} className="block w-full text-left py-2 font-medium text-slate-800 hover:text-blue-900 flex items-center gap-2 cursor-pointer">
-              <FileText className="w-4 h-4 text-blue-900" /> 20 School Policies
+              <FileText className="w-4 h-4 text-blue-900" /> Code of Conduct
             </button>
             <button onClick={() => navigateTo('facilities')} className="block w-full text-left py-2 font-medium text-slate-800 hover:text-blue-900 cursor-pointer">Campus Facilities</button>
             <button onClick={() => navigateTo('gallery')} className="block w-full text-left py-2 font-medium text-slate-800 hover:text-blue-900 flex items-center gap-2 cursor-pointer">
@@ -917,19 +877,15 @@ export default function App() {
         {/* Immersive Student & Campus Photography Background Group Behind Hero Content */}
         <div className="absolute inset-0 grid grid-cols-1 sm:grid-cols-2 opacity-40 mix-blend-normal pointer-events-none filter brightness-105 scale-105">
           <div 
-            className="bg-cover bg-center h-full transition-transform duration-1000 transform hover:scale-105"
+            className="bg-cover bg-center h-full"
             style={{ backgroundImage: `url('https://www.iflierintlschl.org/wp-content/uploads/2019/10/GRADA-SENIOR.jpg')` }}
           ></div>
           <div 
-            className="bg-cover bg-center h-full transition-transform duration-1000 hidden sm:block transform hover:scale-105"
+            className="bg-cover bg-center h-full hidden sm:block"
             style={{ backgroundImage: `url('https://www.iflierintlschl.org/wp-content/uploads/2022/03/cropped-DSC_4309-scaled-1-600x401.jpg')` }}
           ></div>
         </div>
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-900/80 to-slate-950/90 pointer-events-none"></div>
-
-        {/* Decorative Glows */}
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -937,13 +893,8 @@ export default function App() {
             {/* Hero Left Copy */}
             <div className="lg:col-span-6 space-y-6 text-center lg:text-left">
               
-              <div className="inline-flex items-center gap-2 bg-slate-800/90 border border-slate-700/80 rounded-full px-4 py-1.5 text-xs sm:text-sm font-medium text-amber-400 backdrop-blur-sm shadow-xs">
-                <Sparkles className="w-4 h-4 text-amber-400" />
-                <span>Pacesetter in Academic & Moral Excellence</span>
-              </div>
-
               <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
-                Empowering Every Student to Become <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-200 to-amber-500">Somebody Great.</span>
+                Empowering Every Student to Become <span className="text-amber-400">Somebody Great.</span>
               </h1>
 
               <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-light">
@@ -955,7 +906,7 @@ export default function App() {
                 <button 
                   id="btn-hero-admissions"
                   onClick={() => navigateTo('admissions')}
-                  className="w-full sm:w-auto bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-7 py-3.5 rounded-xl shadow-lg hover:shadow-amber-500/20 transition flex items-center justify-center gap-2 text-base cursor-pointer"
+                  className="w-full sm:w-auto bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-7 py-3.5 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-base cursor-pointer"
                 >
                   Admissions Open <ChevronRight className="w-5 h-5" />
                 </button>
@@ -995,7 +946,7 @@ export default function App() {
                   <img 
                     src="https://www.iflierintlschl.org/wp-content/uploads/2019/10/GRADA-SENIOR.jpg"
                     alt="i-Flier Senior Secondary School Graduating Class"
-                    className="w-full h-64 sm:h-72 object-cover object-center group-hover:scale-105 transition duration-700"
+                    className="w-full h-64 sm:h-72 object-cover object-center"
                     referrerPolicy="no-referrer"
                     loading="eager"
                     fetchPriority="high"
@@ -1053,18 +1004,18 @@ export default function App() {
                     </div>
 
                     <p className="text-xs text-slate-300 leading-snug">
-                      Nursery • Primary • JSS • SSS • CBT Centre & Boarding Facilities.
+                      Nursery, Primary, JSS, SSS, CBT Centre and boarding facilities.
                     </p>
 
                     <div className="flex items-center gap-2 pt-1 flex-wrap">
                       <span className="text-[11px] bg-slate-800 border border-slate-700 text-slate-300 px-2 py-0.5 rounded">
-                        ✓ CBT Computer Labs
+                        CBT Computer Labs
                       </span>
                       <span className="text-[11px] bg-slate-800 border border-slate-700 text-slate-300 px-2 py-0.5 rounded">
-                        ✓ Boarding Houses
+                        Boarding Houses
                       </span>
                       <span className="text-[11px] bg-slate-800 border border-slate-700 text-slate-300 px-2 py-0.5 rounded">
-                        ✓ Science Labs
+                        Science Labs
                       </span>
                     </div>
                   </div>
@@ -1083,9 +1034,6 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-            <span className="text-xs font-bold uppercase tracking-widest text-amber-600 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
-              Who We Are
-            </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
               Welcome to i-Flier International School
             </h2>
@@ -1098,7 +1046,7 @@ export default function App() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
             
             {/* Mission */}
-            <div className="bg-slate-50 border border-slate-200 p-8 rounded-2xl shadow-xs hover:shadow-md transition space-y-4">
+            <div className="bg-slate-50 border border-slate-200 p-8 rounded-2xl space-y-4">
               <div className="w-12 h-12 bg-blue-900 text-white rounded-xl flex items-center justify-center font-bold text-xl">
                 <Compass className="w-6 h-6" />
               </div>
@@ -1109,7 +1057,7 @@ export default function App() {
             </div>
 
             {/* Vision */}
-            <div className="bg-slate-50 border border-slate-200 p-8 rounded-2xl shadow-xs hover:shadow-md transition space-y-4">
+            <div className="bg-slate-50 border border-slate-200 p-8 rounded-2xl space-y-4">
               <div className="w-12 h-12 bg-amber-500 text-slate-950 rounded-xl flex items-center justify-center font-bold text-xl">
                 <Award className="w-6 h-6" />
               </div>
@@ -1132,7 +1080,7 @@ export default function App() {
               {CORE_VALUES.map((val, idx) => {
                 const IconComponent = val.icon;
                 return (
-                  <div key={idx} className="bg-white border border-slate-200 p-5 rounded-xl text-center space-y-2 hover:border-blue-900 transition hover:-translate-y-1 shadow-2xs">
+                  <div key={idx} className="bg-white border border-slate-200 p-5 rounded-xl text-center space-y-2">
                     <div className="w-10 h-10 bg-blue-50 text-blue-900 rounded-lg mx-auto flex items-center justify-center">
                       <IconComponent className="w-5 h-5" />
                     </div>
@@ -1147,7 +1095,6 @@ export default function App() {
           {/* Our Beliefs Section */}
           <div className="mt-16 bg-slate-900 text-white rounded-3xl p-8 sm:p-12 relative overflow-hidden">
             <div className="max-w-3xl space-y-6 relative z-10">
-              <span className="text-amber-400 font-bold uppercase tracking-wider text-xs">Our Core Motto & Philosophy</span>
               <h3 className="text-3xl font-extrabold text-white">"Everybody Can Be Somebody"</h3>
               
               <p className="text-slate-300 text-sm sm:text-base">
@@ -1163,8 +1110,6 @@ export default function App() {
                 ))}
               </div>
             </div>
-
-            <div className="absolute right-[-50px] bottom-[-50px] w-80 h-80 bg-blue-600/10 rounded-full blur-2xl pointer-events-none"></div>
           </div>
 
         </div>
@@ -1175,9 +1120,6 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-3xl mx-auto mb-12 space-y-3">
-            <span className="text-xs font-bold uppercase tracking-widest text-blue-900 bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
-              Academic Spectrum
-            </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
               Our Academic Divisions
             </h2>
@@ -1214,11 +1156,6 @@ export default function App() {
                       {div.badge}
                     </span>
                     <span className="text-slate-500 text-xs font-semibold">{div.age}</span>
-                    {div.subjects && (
-                      <span className="bg-blue-50 text-blue-900 border border-blue-200 text-xs font-bold px-2.5 py-0.5 rounded-full">
-                        {div.subjects.length} Core Subjects
-                      </span>
-                    )}
                   </div>
 
                   <h3 className="text-3xl font-extrabold text-slate-900">{div.title}</h3>
@@ -1248,7 +1185,7 @@ export default function App() {
                       <div className="flex flex-wrap gap-2 pt-1">
                         {div.tradeSubjects.map((trade: string, tIdx: number) => (
                           <span key={tIdx} className="bg-white border border-amber-300 text-amber-900 text-xs font-bold px-3 py-1 rounded-full shadow-2xs">
-                            ★ {trade}
+                            {trade}
                           </span>
                         ))}
                       </div>
@@ -1315,29 +1252,10 @@ export default function App() {
                   </div>
 
                   <div className="pt-2 border-t border-slate-800 text-center">
-                    <span className="text-xs text-slate-400">Official Hours: Monday - Friday, 8:00 AM - 2:00 PM</span>
+                    <span className="text-xs text-slate-400">Official Hours: Mon - Thu, 8:00 AM - 4:00 PM | Fri, 8:00 AM - 1:10 PM</span>
                   </div>
                 </div>
               </div>
-
-              {/* Subject Breakdown Cloud */}
-              {div.subjects && div.subjects.length > 0 && (
-                <div className="pt-6 border-t border-slate-100 space-y-3">
-                  <div className="flex items-center justify-between flex-wrap gap-2">
-                    <h4 className="font-bold text-slate-900 text-sm flex items-center gap-2">
-                      <BookOpen className="w-4 h-4 text-blue-900" /> Complete Subject List ({div.subjects.length} Subjects):
-                    </h4>
-                    <span className="text-xs text-slate-500">Taught by qualified subject specialists</span>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {div.subjects.map((sub: string, sIdx: number) => (
-                      <span key={sIdx} className="bg-slate-100 hover:bg-blue-50 text-slate-800 hover:text-blue-900 border border-slate-200 px-3 py-1.5 rounded-lg text-xs font-medium transition">
-                        {sub}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
 
             </div>
           ))}
@@ -1350,9 +1268,6 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-            <span className="text-xs font-bold uppercase tracking-widest text-amber-600 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
-              Campus Experience
-            </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
               World-Class Facilities
             </h2>
@@ -1365,7 +1280,7 @@ export default function App() {
             {FACILITIES.map((facility, idx) => {
               const IconComp = facility.icon;
               return (
-                <div key={idx} className="bg-slate-50 border border-slate-200 rounded-2xl p-7 hover:border-blue-900 transition hover:shadow-lg space-y-4 group">
+                <div key={idx} className="bg-slate-50 border border-slate-200 rounded-2xl p-7 hover:border-blue-900 transition space-y-4 group">
                   <div className="flex items-center justify-between">
                     <div className="w-12 h-12 bg-white border border-slate-200 text-blue-900 rounded-xl flex items-center justify-center group-hover:bg-blue-900 group-hover:text-white transition">
                       <IconComp className="w-6 h-6" />
@@ -1385,20 +1300,17 @@ export default function App() {
         </div>
       </section>
 
-      {/* 20 SCHOOL POLICIES & FRAMEWORKS SECTION */}
+      {/* SCHOOL POLICIES SECTION */}
       <section id="policies" className="py-20 bg-slate-100/80 border-y border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div className="space-y-3 max-w-2xl">
-              <span className="text-xs font-bold uppercase tracking-widest text-blue-900 bg-blue-100/80 px-3.5 py-1 rounded-full border border-blue-200">
-                Institutional Governance & Standards
-              </span>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
-                Official School Policies (20 Frameworks)
+                Code of Conduct
               </h2>
               <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-                i-Flier International School is governed by clear, rigorous policies ensuring child protection, non-discrimination, curriculum excellence, assessment standards, and transparent community partnership.
+                Our Code of Conduct sets out the standards of behaviour, safety, and mutual respect expected of every member of the i-Flier community, alongside the school policies that guide child protection, non-discrimination, curriculum excellence, and assessment.
               </p>
             </div>
 
@@ -1410,7 +1322,7 @@ export default function App() {
                   type="text" 
                   value={policySearch}
                   onChange={(e) => setPolicySearch(e.target.value)}
-                  placeholder="Search policies (e.g. curriculum, handwriting, bullying)..."
+                  placeholder="Search the code of conduct (e.g. curriculum, handwriting, bullying)..."
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-900"
                 />
               </div>
@@ -1431,7 +1343,7 @@ export default function App() {
               .map((policy) => (
                 <div 
                   key={policy.id} 
-                  className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md hover:border-blue-900 transition flex flex-col justify-between space-y-4 group"
+                  className="bg-white border border-slate-200 rounded-2xl p-6 hover:border-blue-900 transition flex flex-col justify-between space-y-4 group"
                 >
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
@@ -1519,7 +1431,7 @@ export default function App() {
                   href="https://iflier1033fm.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-7 py-3.5 rounded-xl transition flex items-center gap-2 text-sm shadow-lg hover:shadow-amber-500/20"
+                  className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-7 py-3.5 rounded-xl transition flex items-center gap-2 text-sm shadow-lg"
                 >
                   <Radio className="w-5 h-5" /> Visit Official 103.3 FM Website <ExternalLink className="w-4 h-4" />
                 </a>
@@ -1565,9 +1477,6 @@ export default function App() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
             
             <div className="lg:col-span-6 space-y-6">
-              <span className="text-xs font-bold uppercase tracking-widest text-blue-900 bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
-                Join Our Family
-              </span>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
                 Admissions & Enrollment Process
               </h2>
@@ -1808,9 +1717,6 @@ export default function App() {
           
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div className="space-y-3">
-              <span className="text-xs font-bold uppercase tracking-widest text-blue-900 bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
-                Visual Showcase
-              </span>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
                 Campus Media & Video Gallery
               </h2>
@@ -2059,7 +1965,7 @@ export default function App() {
                 <div 
                   key={item.id}
                   onClick={() => setActiveMediaItem(item)}
-                  className="group bg-slate-50 border border-slate-200 rounded-2xl overflow-hidden hover:shadow-xl transition duration-300 cursor-pointer flex flex-col justify-between"
+                  className="group bg-slate-50 border border-slate-200 rounded-2xl overflow-hidden transition duration-300 cursor-pointer flex flex-col justify-between"
                 >
                   <div className="relative h-56 w-full overflow-hidden bg-slate-900">
                     <img 
@@ -2115,7 +2021,7 @@ export default function App() {
                   </div>
 
                   <div className="px-6 pb-5 pt-0 text-xs font-bold text-blue-900 flex items-center gap-1">
-                    {item.type === 'video' ? 'Watch Broadcast →' : 'View Full Image →'}
+                    {item.type === 'video' ? 'Watch Broadcast' : 'View Full Image'}
                   </div>
                 </div>
               ))}
@@ -2131,20 +2037,15 @@ export default function App() {
           
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
             <div>
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-bold uppercase tracking-widest text-amber-600 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
-                  School Updates
-                </span>
-                {isWpConnected && (
-                  <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full flex items-center gap-1">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    Live from WordPress
-                  </span>
-                )}
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2">
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
                 i-Flier News & Insights
               </h2>
+              {isWpConnected && (
+                <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full mt-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                  Live from WordPress
+                </span>
+              )}
             </div>
 
             {/* Search Filter input */}
@@ -2162,7 +2063,7 @@ export default function App() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {articles.filter(art => art.title.toLowerCase().includes(newsSearch.toLowerCase()) || art.snippet.toLowerCase().includes(newsSearch.toLowerCase())).map((article) => (
-              <div key={article.id} className="bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-lg transition flex flex-col justify-between group">
+              <div key={article.id} className="bg-white border border-slate-200 rounded-2xl overflow-hidden transition flex flex-col justify-between group">
                 {article.imageUrl && (
                   <a 
                     href={article.url || "https://www.iflierintlschl.org/"}
@@ -2241,9 +2142,6 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-            <span className="text-xs font-bold uppercase tracking-widest text-blue-900 bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
-              Get in Touch
-            </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
               Visit or Contact Us
             </h2>
@@ -2326,7 +2224,7 @@ export default function App() {
 
                 {/* Simulated Map Visual Box */}
                 <div className="bg-slate-200 border border-slate-300 rounded-2xl h-56 flex flex-col items-center justify-center p-6 text-center relative">
-                  <MapPin className="w-10 h-10 text-red-600 mb-2 animate-bounce" />
+                  <MapPin className="w-10 h-10 text-red-600 mb-2" />
                   <p className="font-bold text-slate-800 text-sm">i-Flier International School Campus</p>
                   <p className="text-xs text-slate-500 mt-1">Opposite DonBosco Youth Centre, Ogungbade, Egbeda</p>
                   
@@ -2407,11 +2305,11 @@ export default function App() {
 
             {/* Quick Portals */}
             <div className="space-y-3 text-xs">
-              <h4 className="font-bold text-white text-sm uppercase tracking-wider">Portals & Policies</h4>
+              <h4 className="font-bold text-white text-sm uppercase tracking-wider">Portals & Code of Conduct</h4>
               <ul className="space-y-2">
                 <li><button onClick={() => setPortalModalOpen(true)} className="text-amber-400 hover:underline font-bold flex items-center gap-1 cursor-pointer"><Lock className="w-3 h-3" /> i-Flier School Portal</button></li>
                 <li><a href={ERP_PORTAL_LINKS.azure} target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition flex items-center gap-1"><ExternalLink className="w-3 h-3" /> Azure ERP Cloud</a></li>
-                <li><button onClick={() => navigateTo('policies')} className="hover:text-amber-400 transition cursor-pointer">20 School Policies</button></li>
+                <li><button onClick={() => navigateTo('policies')} className="hover:text-amber-400 transition cursor-pointer">Code of Conduct</button></li>
                 <li><button onClick={() => navigateTo('admissions')} className="hover:text-amber-400 transition cursor-pointer">Admissions Eligibility</button></li>
                 <li><button onClick={() => navigateTo('gallery')} className="hover:text-amber-400 transition cursor-pointer">Media & Video Gallery</button></li>
                 <li><button onClick={() => navigateTo('contact')} className="hover:text-amber-400 transition cursor-pointer">Contact & Map</button></li>
@@ -2427,7 +2325,7 @@ export default function App() {
             <div className="flex items-center gap-4">
               <span>Egbeda, Ibadan, Nigeria</span>
               <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-white transition cursor-pointer">
-                Back to top ↑
+                Back to top
               </button>
             </div>
           </div>
@@ -2573,7 +2471,7 @@ export default function App() {
         rel="noopener noreferrer"
         aria-label="Chat on WhatsApp"
         title="Chat with i-Flier Admissions on WhatsApp"
-        className="whatsapp-float-btn fixed bottom-6 left-6 z-40 bg-emerald-600 hover:bg-emerald-500 text-white p-3 sm:px-4 sm:py-3 rounded-full shadow-2xl hover:shadow-emerald-500/30 border border-emerald-400/40 transition-all duration-300 flex items-center gap-2 group backdrop-blur-md cursor-pointer animate-in fade-in slide-in-from-bottom-5 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+        className="whatsapp-float-btn fixed bottom-6 left-6 z-40 bg-emerald-600 hover:bg-emerald-500 text-white p-3 sm:px-4 sm:py-3 rounded-full shadow-2xl border border-emerald-400/40 transition-all duration-300 flex items-center gap-2 group cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-400"
       >
         <svg className="w-5 h-5 fill-current text-white shrink-0 group-hover:scale-110 transition-transform" viewBox="0 0 24 24">
           <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
@@ -2590,7 +2488,7 @@ export default function App() {
           onClick={scrollToTop}
           aria-label="Back to top"
           title={`Scroll back to top (${Math.round(scrollProgress)}% scrolled)`}
-          className="fixed bottom-6 right-6 z-40 bg-slate-900/95 hover:bg-slate-900 text-white p-2 sm:px-3.5 sm:py-2.5 rounded-full shadow-2xl hover:shadow-amber-500/30 border border-slate-700/80 hover:border-amber-400 transition-all duration-300 flex items-center gap-2.5 group backdrop-blur-md cursor-pointer animate-in fade-in slide-in-from-bottom-5 focus:outline-none focus:ring-2 focus:ring-amber-400"
+          className="fixed bottom-6 right-6 z-40 bg-slate-900/95 hover:bg-slate-900 text-white p-2 sm:px-3.5 sm:py-2.5 rounded-full shadow-2xl border border-slate-700/80 hover:border-amber-400 transition-all duration-300 flex items-center gap-2.5 group cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-400"
         >
           <div className="relative w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center">
             <svg className="w-full h-full -rotate-90" viewBox="0 0 40 40">
