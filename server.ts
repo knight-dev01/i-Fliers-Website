@@ -2,12 +2,25 @@ import express from "express";
 import path from "path";
 import { createServer as createViteServer } from "vite";
 import nodemailer from "nodemailer";
+import { fetchWpJson } from "./server/wp";
 
 async function startServer() {
   const app = express();
   const PORT = 3000;
 
   app.use(express.json());
+
+  app.get("/api/wp", async (req, res) => {
+    const wpPath = typeof req.query.path === "string" ? req.query.path : "";
+    try {
+      const data = await fetchWpJson(wpPath);
+      res.setHeader("Cache-Control", "public, max-age=60, s-maxage=300, stale-while-revalidate=600");
+      res.json(data);
+    } catch (error) {
+      console.error("WordPress proxy error:", error);
+      res.status(502).json({ error: "WordPress content is unavailable" });
+    }
+  });
 
   // API Health Check
   app.get("/api/health", (req, res) => {

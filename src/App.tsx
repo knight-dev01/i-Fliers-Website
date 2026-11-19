@@ -48,9 +48,17 @@ import {
   AlertCircle,
   Loader2
 } from 'lucide-react';
+import { fetchWpImages, fetchWpNews } from './content';
 
 const SCHOOL_LOGO_URL = "https://www.iflierintlschl.org/wp-content/uploads/2018/05/logo-2-1-e1526719499231.png";
 const SCHOOL_FOOTER_LOGO_URL = "https://www.iflierintlschl.org/wp-content/uploads/2018/05/logo-2-1-e1526719499231.png";
+
+const HERO_IMAGES = {
+  main: "https://www.iflierintlschl.org/wp-content/uploads/2019/10/GRADA-SENIOR.jpg",
+  backgroundLeft: "https://www.iflierintlschl.org/wp-content/uploads/2019/10/GRADA-SENIOR.jpg",
+  backgroundRight: "https://www.iflierintlschl.org/wp-content/uploads/2022/03/cropped-DSC_4309-scaled-1-600x401.jpg",
+  inset: "https://www.iflierintlschl.org/wp-content/uploads/2022/03/cropped-DSC_4309-scaled-1-600x401.jpg"
+};
 
 const SCHOOL_INFO = {
   name: "i-Flier International School",
@@ -357,6 +365,8 @@ export default function App() {
 
   // Gallery & Media State
   const [galleryFilter, setGalleryFilter] = useState<'all' | 'image' | 'video'>('all');
+  const [galleryItems, setGalleryItems] = useState<any[]>(CAMPUS_GALLERY);
+  const [heroImages, setHeroImages] = useState(HERO_IMAGES);
   const [activeMediaItem, setActiveMediaItem] = useState<any | null>(null);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [isAutoSliding, setIsAutoSliding] = useState(true);
@@ -392,7 +402,7 @@ export default function App() {
   const [scrollProgress, setScrollProgress] = useState(0);
 
   // Gallery items filtered by active category tab
-  const filteredGallery = CAMPUS_GALLERY.filter(
+  const filteredGallery = galleryItems.filter(
     item => galleryFilter === 'all' || item.type === galleryFilter
   );
 
@@ -452,66 +462,63 @@ export default function App() {
   };
 
   useEffect(() => {
-    // Attempt to fetch live articles and featured images from WordPress GraphQL endpoint
-    async function fetchWpPosts() {
+    let active = true;
+
+    async function loadNews() {
       try {
-        const query = `
-          query GetPosts {
-            posts(first: 6) {
-              nodes {
-                id
-                databaseId
-                title
-                date
-                link
-                uri
-                excerpt
-                author {
-                  node {
-                    name
-                  }
-                }
-                categories {
-                  nodes {
-                    name
-                  }
-                }
-                featuredImage {
-                  node {
-                    sourceUrl
-                    altText
-                  }
-                }
-              }
-            }
-          }
-        `;
-        const res = await fetch('https://www.iflierintlschl.org/graphql', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ query })
-        });
-        const json = await res.json();
-        if (json?.data?.posts?.nodes?.length > 0) {
-          const fetched = json.data.posts.nodes.map((post: any) => ({
-            id: post.databaseId || post.id,
-            title: post.title,
-            date: new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-            category: post.categories?.nodes?.[0]?.name || 'School News',
-            snippet: post.excerpt ? post.excerpt.replace(/<[^>]+>/g, '').trim() : 'Click to read full story on the official website.',
-            author: post.author?.node?.name || 'i-Flier Admin',
-            imageUrl: post.featuredImage?.node?.sourceUrl || null,
-            url: post.link || (post.uri ? `https://www.iflierintlschl.org${post.uri}` : 'https://www.iflierintlschl.org/')
-          }));
-          setArticles(fetched);
+        const posts = await fetchWpNews(6);
+        if (active && posts.length > 0) {
+          setArticles(posts);
           setIsWpConnected(true);
         }
       } catch (err) {
-        // Fall back gracefully to static NEWS_ARTICLES
+        // Bundled news stays in place when WordPress is unavailable.
       }
     }
 
-    fetchWpPosts();
+    async function loadImages() {
+      try {
+        const images = await fetchWpImages();
+        if (!active || images.length === 0) return;
+
+        const [main, backgroundLeft, backgroundRight, inset] = images;
+        setHeroImages({
+          main: main?.url || HERO_IMAGES.main,
+          backgroundLeft: backgroundLeft?.url || main?.url || HERO_IMAGES.backgroundLeft,
+          backgroundRight: backgroundRight?.url || backgroundLeft?.url || HERO_IMAGES.backgroundRight,
+          inset: inset?.url || backgroundRight?.url || HERO_IMAGES.inset
+        });
+
+        const galleryPhotos = images.slice(4);
+        if (galleryPhotos.length === 0) return;
+
+        let photoIndex = 0;
+        const nextItems: any[] = CAMPUS_GALLERY.map((item) => {
+          if (item.type !== 'image' || photoIndex >= galleryPhotos.length) return item;
+          const photo = galleryPhotos[photoIndex++];
+          return { ...item, url: photo.url, title: photo.title, description: photo.description };
+        });
+
+        galleryPhotos.slice(photoIndex).forEach((photo, index) => {
+          nextItems.push({
+            id: `wp-${index}`,
+            type: 'image',
+            title: photo.title,
+            category: 'Campus Life',
+            url: photo.url,
+            description: photo.description
+          });
+        });
+
+        setGalleryItems(nextItems);
+      } catch (err) {
+        // Bundled images stay in place when no WordPress content page is published.
+      }
+    }
+
+    loadNews();
+    loadImages();
+    return () => { active = false; };
   }, []);
 
   // Scroll to section helper
@@ -878,11 +885,11 @@ export default function App() {
         <div className="absolute inset-0 grid grid-cols-1 sm:grid-cols-2 opacity-40 mix-blend-normal pointer-events-none filter brightness-105 scale-105">
           <div 
             className="bg-cover bg-center h-full"
-            style={{ backgroundImage: `url('https://www.iflierintlschl.org/wp-content/uploads/2019/10/GRADA-SENIOR.jpg')` }}
+            style={{ backgroundImage: `url('${heroImages.backgroundLeft}')` }}
           ></div>
           <div 
             className="bg-cover bg-center h-full hidden sm:block"
-            style={{ backgroundImage: `url('https://www.iflierintlschl.org/wp-content/uploads/2022/03/cropped-DSC_4309-scaled-1-600x401.jpg')` }}
+            style={{ backgroundImage: `url('${heroImages.backgroundRight}')` }}
           ></div>
         </div>
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-900/80 to-slate-950/90 pointer-events-none"></div>
@@ -944,7 +951,7 @@ export default function App() {
                 {/* Main Hero Photo Card: Graduating Scholars */}
                 <div className="relative rounded-2xl overflow-hidden border border-slate-700/80 shadow-2xl group bg-slate-800">
                   <img 
-                    src="https://www.iflierintlschl.org/wp-content/uploads/2019/10/GRADA-SENIOR.jpg"
+                    src={heroImages.main}
                     alt="i-Flier Senior Secondary School Graduating Class"
                     className="w-full h-64 sm:h-72 object-cover object-center"
                     referrerPolicy="no-referrer"
@@ -983,7 +990,7 @@ export default function App() {
                   
                   <div className="sm:col-span-4 rounded-xl overflow-hidden border border-slate-700 h-24 sm:h-full bg-slate-800">
                     <img 
-                      src="https://www.iflierintlschl.org/wp-content/uploads/2022/03/cropped-DSC_4309-scaled-1-600x401.jpg"
+                      src={heroImages.inset}
                       alt="Students on i-Flier Campus"
                       className="w-full h-full object-cover"
                       referrerPolicy="no-referrer"
@@ -1737,7 +1744,7 @@ export default function App() {
                       : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
-                  All ({CAMPUS_GALLERY.length})
+                  All ({galleryItems.length})
                 </button>
                 <button
                   onClick={() => setGalleryFilter('image')}
